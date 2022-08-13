@@ -153,3 +153,16 @@ if(FileWareUtils.isHidden(path)) {
 ## like jpg
 
 FileWareUtils.deleteCustom(path,"jpg");
+
+## to read a file from path
+
+
+YourString = FileWareUtils.read(path);
+
+## to rewrite a file
+
+FileWareUtils.rewrite(path,text);
+
+## to Add text to file without deleting old text
+
+FileWareUtils.writeAsOld(path,text);
