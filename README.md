@@ -1,5 +1,5 @@
 # FileWareUtils
- It is a FileUtil to help developers to work with files .
+ It is a FileUtil to help developers to work with files , please read the usage and warnings to know how it works.
  [![](https://jitpack.io/v/abodinagdat16/FileWareUtils.svg)](https://jitpack.io/#abodinagdat16/FileWareUtils)
  ### Configure
  ### Maven
