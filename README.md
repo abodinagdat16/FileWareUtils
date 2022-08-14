@@ -18,7 +18,7 @@
  
  dependencies {
  
-	           implementation 'com.github.abodinagdat16:FileWareUtils:v1.0.1'
+	           implementation 'com.github.abodinagdat16:FileWareUtils:1.0.1'
          
 	}
  
