@@ -1,4 +1,4 @@
-# File UTils
+# File Utils
   #### learn to use FileUtils class
 
 > with this method you can create new Folder s1 is your string value of path , s2 is your string value of name without path like Download
