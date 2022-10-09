@@ -4,10 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import arabware.file.FileWareUtils;
 
 public class MainActivity extends AppCompatActivity {
-    FileWareUtils fwu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
