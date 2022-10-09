@@ -28,6 +28,5 @@
  - [] it supports android 11 fully but you must add manage all storage permission or any other ways of accessing android folder , I will try to update it soon but currently you should do that yourself to access android folder , other folders are working well
  
  #  Usage
- [File Utils](https://github.com/abodinagdat16/FileWareUtils/blob/master/Doc/FileUtils.md)
  
  [Apk Utils](https://github.com/abodinagdat16/FileWareUtils/blob/master/Doc/ApkUtils.md)
