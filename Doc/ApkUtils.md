@@ -1,21 +1,53 @@
 ## Learn to use Apk Utils
-### ApkUtils is a class to get info about apk files
-#### c is the context like MainActivity.this or Fragment.this.getActivity(); , path is the string path of apk file
+### ApkUtils is a class to get info about apps from file or by package
+#### c is the context like MainActivity.this or Fragment.this.getActivity(); , path is the string path of apk file , pkg is the package name of the app , apk is the name of ApkUtils definition here
+##### please don't use gradle to download the library, paste the java files , because I didnot yet updated the library jar so if you download it , you will use an older one which has different methods and classes
 
-> to get drawable
-```java
-Drawable d = new ApkUtils(c,path).getIcon();
-imageview1.setImageDrawable(d);
+> how to create from file
+
+``` java
+
+ApkUtils apk = new ApkUtils(c,path);
+
 ```
-> to get name
-```java
-String appName = new ApkUtils(c,path).getName();
+
+> how to create from package name
+
+``` java
+ApkUtils apk = new ApkUtils(null,null).getFromPackageName(c,pkg);
+
 ```
-> to get version
-```java
-String version = new ApkUtils(c,path).getVersion();
+
+> how to get app name
+
+``` java
+
+YourString = apk.getName();
+
 ```
-> to get package name
-```java
-String pkg = new ApkUtils(c,path).getPackage();
+
+> how to get app package name
+
+``` java
+
+YourString = apk.getPackage();
+
 ```
+
+> how to get the version name of the app
+
+``` java
+
+YourString = apk.getVersionName();
+
+```
+> how to get the version code of the app
+
+``` java
+
+YourString = apk.getVersionCode();
+
+```
+
+######There Are Many Methods Just See The Java Files , I will update this page later
+
