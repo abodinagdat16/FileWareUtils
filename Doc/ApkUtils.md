@@ -78,7 +78,7 @@ YourString = apk.getTargetSdkVersion();
 
 ```
 
-> how to get class name (the main application class that extends android.app.Application or its copies
+> how to get class name (the main application class that extends android.app.Application or its copies)
 
 ``` java
 
