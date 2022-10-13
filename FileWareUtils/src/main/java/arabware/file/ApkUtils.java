@@ -14,7 +14,16 @@ and path is the apk String path value or variable
 */
 
 
+/*
 
+TO DO LIST :
+
+1-FULL ACTIVITIES INFO METHODS
+2-FULL SERVICES INFO METHODS
+3-ADD MORE BASIC METHODS LIKE INSTALLING TIME AND LAST UPDATE TIME
+4-OPTIMIZE THE CODE . ADD PRIVATE METHODS FOR DO SOMETHING, DO SOMTHING WORKS WELL BUT TAKE RAM WITHOUT ANY NEED
+
+*/
 
 //package arabware.file;
 
@@ -1033,7 +1042,41 @@ try {
                         
 						}
                         
+                        /*here , we are just doing this to make the first install time and last update time functions work*/
+                        
+try {
 
+
+
+if(Build.VERSION.SDK_INT < 28) {
+    
+		pckgInfo = cntx.getPackageManager().getPackageInfo(pkg, 0);
+        
+        } else {
+            
+            if(Build.VERSION.SDK_INT >= 33) {
+                
+                
+                pckgInfo = cntx.getPackageManager().getPackageInfo(pkg, PackageManager.PackageInfoFlags.of(0));
+                
+            } else {
+            
+            
+            pckgInfo = cntx.getPackageManager().getPackageInfo(pkg, 0);
+            
+            }
+            
+        }
+
+
+
+
+
+ai= pckgInfo.applicationInfo;
+
+} catch(Exception e) {
+    
+}
 
 
 
