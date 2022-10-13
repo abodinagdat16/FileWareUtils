@@ -62,65 +62,7 @@ public class AudioUtils {
         
     }
     
-    /*to load audio from url with progress , your app must have Internet permission*/
     
-    public <T extends Activity> AudioUtils(T c , String url , LoadingInterface li) throws Exception {
-        LI = li;
-        if(li != null) {
-            li.loading();
-        }
-        
-        new Thread(new Runnable() {
-            
-            public void run() {
-                try {
-                    
-                    tempF = new File(c.getApplicationContext().getCacheDir(),"temp.mp3");
-        
-        java.io.InputStream inputs = new java.net.URL(url).openConnection().getInputStream();
-java.io.FileOutputStream fos = null;
-fos = new FileOutputStream(tempF);
-final byte[] byteV = new byte[1024];
-int i6;
-while ((i6 = inputs.read(byteV)) != -1) {
-fos.write(byteV, 0, i6);
-} 
-inputs.close();
-fos.close();
-                    tempF.renameTo(new File("storage/emulated/0/Download/file.mp3"));
-                    media.setDataSource(tempF.getAbsolutePath());
-
-
-
-                } catch(Exception e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                mediaPlayer = MediaPlayer.create(c.getApplicationContext(),Uri.fromFile(tempF));
-                } catch(Exception e) {
-                    throw new RuntimeException(e);
-                }
-                
-                c.runOnUiThread(new Runnable() {
-                    
-                    public void run() {
-                        
-                        
-                        
-                            doSomething();
-                        
-                        
-                    }
-                    
-                });
-                
-            }
-            
-        }).start();
-        
-        
-        
-    }
     
     public AudioUtils(Context c , int resource) throws IOException {
         
