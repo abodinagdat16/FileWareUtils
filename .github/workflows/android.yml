@@ -1,10 +1,6 @@
 name: Android CI
 
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+on: [push]
 
 jobs:
   build:
@@ -12,16 +8,60 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: set up JDK 11
-      uses: actions/setup-java@v3
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Checkout submodule
+      run: git submodule sync --recursive && git submodule update --init --recursive
+
+    - name: Before build
+      uses: xdtianyu/actions-android-ci@master
+      env:
+        ENCRYPTED_KEY: ${{ secrets.ENCRYPTED_KEY }}
+        ENCRYPTED_IV: ${{ secrets.ENCRYPTED_IV }}
       with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle
-- name: Update Gradle Wrapper Action
-  uses: gradle-update/update-gradle-wrapper-action@v1
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
+        args: '"
+        . ./env.sh;
+        openssl aes-256-cbc -K $ENCRYPTED_KEY -iv $ENCRYPTED_IV -in secrets.tar.enc -out secrets.tar -d;
+        tar xvf secrets.tar;
+        touch local.properties
+        "'
+
+    - name: Cache gradle and sdk
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-gradle-and-sdk
+      with:
+        path: |
+          ${{ github.workspace }}/.opt/cache/gradle/wrapper
+          ${{ github.workspace }}/.opt/cache/gradle/caches
+          ${{ github.workspace }}/.opt/sdk
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/wrapper/gradle-wrapper.properties', '**/build.gradle') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - name: Build
+      uses: xdtianyu/actions-android-ci@master
+      env:
+        ENCRYPTED_KEY: ${{ secrets.ENCRYPTED_KEY }}
+        ENCRYPTED_IV: ${{ secrets.ENCRYPTED_IV }}
+        ALIAS: ${{ secrets.ALIAS }}
+        ALIAS_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
+        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      with:
+        args: '"
+        umask 000;
+        . ./env.sh;
+        . /opt/setup-android-sdk.sh;
+        ./gradlew assembleRelease
+        "'
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: artifacts
+        path: |
+          app/**/apk/release/*
+          app/**/mapping/release/mapping.txt
