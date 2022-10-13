@@ -79,6 +79,7 @@ public class ArabWareFileManager {
     private File file;
     
     
+    
     //path of file or folder to do something on
     
     private String path;
@@ -1818,6 +1819,7 @@ throw new RuntimeException(new Exception("your device doesn't support memory car
         }
         
         
+        
         File[] list = new File(path).listFiles();
         
         for (File f : list) {
@@ -1861,7 +1863,7 @@ throw new RuntimeException(new Exception("your device doesn't support memory car
                     
                 }
                 
-            } else if (f.isDirectory()) {
+            } else if (f.isDirectory()&&f.canRead()&&!f.getAbsolutePath().contains("/Android")) {
                 
                 //do nothing , it is not full list !
                 
@@ -1890,7 +1892,9 @@ throw new RuntimeException(new Exception("your device doesn't support memory car
             } else {
                 path = path + "/";
             }
+            
         }
+        
         
         
         File[] list = new File(path).listFiles();
@@ -1936,7 +1940,7 @@ throw new RuntimeException(new Exception("your device doesn't support memory car
                     
                 }
                 
-            } else if (f.isDirectory()) {
+            } else if (f.isDirectory()&&f.canRead()&&!f.getAbsolutePath().contains("/Android")) {
                 path = f.getAbsolutePath();
                 full_files_list(hidden,type);
                 
@@ -1972,12 +1976,16 @@ throw new RuntimeException(new Exception("your device doesn't support memory car
             }
         }
         
+        if(new File(path).getAbsolutePath().contains("/Android")) {
+            return new ArrayList<>();
+        }
+        
         
         File[] list = new File(path).listFiles();
         
         for (File f : list) {
             
-            if (f.isDirectory()) {
+            if (f.isDirectory()&&f.canRead()&&!file.getAbsolutePath().contains("/Android")) {
                 
                 if(hidden) {
                     
@@ -2023,11 +2031,14 @@ throw new RuntimeException(new Exception("your device doesn't support memory car
         }
         
         
+        
+        
+        
         File[] list = new File(path).listFiles();
         
         for (File f : list) {
             
-            if (f.isDirectory()) {
+            if (f.isDirectory()&&f.canRead()&&!f.getAbsolutePath().contains("/Android")) {
                 
                 if(hidden) {
                     
