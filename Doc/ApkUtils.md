@@ -201,3 +201,58 @@ YourString2 = apk.getSHA256();
 YourArrayListString = apk.getPermissios();
 
 ```
+
+> get the activities list of the installed or file app
+
+``` java
+
+YourArrayListString = apk.getActivities();
+
+```
+> get the services list of the installed or file app
+
+``` java
+
+YourArrayListString = apk.getServices();
+
+```
+> get the receivers list of the installed or file app
+
+``` java
+
+YourArrayListString = apk.getReceivers();
+
+```
+> get the providers list of the installed or file app
+
+``` java
+
+YourArrayListString = apk.getProviders();
+
+```
+
+> get the first install time as String
+
+``` java
+
+YourString = apk.getInstallTime("yyyy/MM/dd hh:mm:ss");
+
+```
+
+> get the last update time as String
+
+``` java
+
+YourString = apk.getUpdateTime("yyyy/MM/dd hh:mm:ss");
+
+```
+
+> get the first install time or last update time as long which is time in milliseconds , you can use it in calendar or something
+
+``` java
+
+YourLong = apk.firstInstallTime();
+YourLong2 = apk.lastUpdateTime();
+
+```
+
