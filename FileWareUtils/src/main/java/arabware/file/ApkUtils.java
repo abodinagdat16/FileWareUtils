@@ -14,6 +14,17 @@ and path is the apk String path value or variable
 */
 
 
+/*
+
+TO DO LIST :
+
+1-FULL ACTIVITIES INFO METHODS
+2-FULL SERVICES INFO METHODS
+3-ADD MORE BASIC METHODS LIKE INSTALLING TIME AND LAST UPDATE TIME
+4-OPTIMIZE THE CODE . ADD PRIVATE METHODS FOR DO SOMETHING, DO SOMTHING WORKS WELL BUT TAKE RAM WITHOUT ANY NEED
+
+*/
+
 //package arabware.file;
 
 
@@ -33,15 +44,20 @@ import android.os.Build; /* User Device Info */
 import java.util.ArrayList; /* This Class Can Contains List Of String values */
 import java.io.File; /* file management class */
 import android.content.pm.Signature; /* a class that can check and get the signature of an app file or installed app*/
-import android.content.pm.PackageManager;
-import android.annotation.TargetApi;
-import java.util.List;
+import android.content.pm.PackageManager; /* the class which GIVE THE POWER TO THIS PROJECT */
+import java.util.List; /* a list that contain values. like ArrayList but not ArrayList :) */
+import android.content.pm.ActivityInfo; /* the class that is used to get full info about an activity of an app */
+import android.content.pm.ProviderInfo; /* the class that is used to get full info about a provider of an app */
+import android.content.pm.ServiceInfo; /* the class that is used to get full info about a service of an app */
+import java.io.File; /*to list and get info about apk files , see getApkPaths method to understand */
+import java.util.Date; /*just a temporary & fast way to convert long into Date to use Into Temporary SimpleDateFormat */
+import java.text.SimpleDateFormat; /* just a temporary & fast way to convert Date into String */
 
 //definition of the whole class
 
-
+@java.lang.SuppressWarnings("deprecation") /*this just for ignoring warnings since this class is using if then else codes to work on all android versions.*/
 public class ApkUtils {
-	
+    
     
     
     //fields
@@ -110,6 +126,14 @@ public class ApkUtils {
     private Signature[] signatures;
     /*permissions of the app from file or package*/
     public ArrayList<String> permissions = new ArrayList<>();
+    /*activities of the app from file or package*/
+    public ArrayList<String> activities = new ArrayList<>();
+    /*services of the app from file or package*/
+    public ArrayList<String> services = new ArrayList<>();
+    /*receivers of the app from file or package*/
+    public ArrayList<String> receivers = new ArrayList<>();
+    /*providers of the app from file or package*/
+    public ArrayList<String> providers = new ArrayList<>();
     /*if the developer (YOU) wanted to get info of an app from package and not file path*/
     private boolean fromPackage;
     
@@ -173,7 +197,7 @@ if(Build.VERSION.SDK_INT < 28) {
         
         } else {
             
-            if(Build.VERSION.SDK_INT >= 32) {
+            if(Build.VERSION.SDK_INT >= 33) {
                 
                 
                 pckgInfo = context.getPackageManager().getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0));
@@ -400,8 +424,58 @@ ai= pckgInfo.applicationInfo;
         return permissions;
     }
     
+    /*you can get the activities list of the app from file or package*/
     
+    public ArrayList<String> getActivities() {
+        if(activities == null) {
+            activities = new ArrayList<>();
+        }
+        return activities;
+    }
     
+    /*you can get the services list of the app from file or package*/
+    
+    public ArrayList<String> getServices() {
+        if(services==null) {
+            services = new ArrayList<>();
+        }
+        return services;
+    }
+    
+    /*you can get the receivers list of the app from file or package*/
+    
+    public ArrayList<String> getReceivers() {
+        if(receivers==null) {
+            receivers = new ArrayList<>();
+        }
+        return receivers;
+    }
+    
+    /*you can get the providers list of the app from file or package*/
+    
+    public ArrayList<String> getProviders() {
+        if(providers==null) {
+            providers = new ArrayList<>();
+        }
+        return providers;
+    }
+    
+    /*to get information about the time of first install and last update*/
+    
+    public String getInstallTime(String format) {
+        return new SimpleDateFormat(format).format(new Date(pckgInfo.firstInstallTime));
+    }
+    public String getUpdateTime(String format) {
+        return new SimpleDateFormat(format).format(new Date(pckgInfo.lastUpdateTime));
+    }
+    public long firstInstallTime() {
+        return pckgInfo.firstInstallTime;
+    }
+    public long lastUpdateTime() {
+        return pckgInfo.lastUpdateTime;
+    }
+    
+    /*this is the MAIN METHOD OF THIS CLASS , 90% OF DATA ARE BEING GOT HERE*/
     
     
     private void doSomething() {
@@ -423,7 +497,7 @@ if(Build.VERSION.SDK_INT < 28) {
         
         } else {
             
-            if(Build.VERSION.SDK_INT >= 32) {
+            if(Build.VERSION.SDK_INT >= 33) {
                 
                 
                 pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(0));
@@ -575,7 +649,7 @@ if(Build.VERSION.SDK_INT < 28) {
         
         } else {
             
-            if(Build.VERSION.SDK_INT >= 32) {
+            if(Build.VERSION.SDK_INT >= 33) {
                 
                 
                 pckgInfo = cntx.getPackageManager().getPackageInfo(pkg, PackageManager.PackageInfoFlags.of(0));
@@ -753,7 +827,7 @@ if(Build.VERSION.SDK_INT < 28) {
         
         } else {
             
-            if(Build.VERSION.SDK_INT >= 32) {
+            if(Build.VERSION.SDK_INT >= 33) {
                 
                 
                 pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(PackageManager.GET_PERMISSIONS));
@@ -790,9 +864,189 @@ try {
                         
                         
 						}
-						
+if(Build.VERSION.SDK_INT < 28) {
+    
+		pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES);
+        
+        } else {
+            
+            if(Build.VERSION.SDK_INT >= 33) {
+                
+                
+                pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(PackageManager.GET_ACTIVITIES));
+                
+            } else {
+            
+            
+            pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES);
+            
+            }
+            
+        }
+                        
+try {
+    
+    activities = new ArrayList<>();
+		
+		if (pckgInfo.activities != null) {
+            
+            
+			for (ActivityInfo a : pckgInfo.activities) {
+				
+				activities.add(a.name);
+                
+                
+					}
+                    
+                    
+					}
+                    
+                    
+					} catch (Exception e) {
+                        
+                        
+                        
+						}
+                        
+if(Build.VERSION.SDK_INT < 28) {
+    
+		pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_SERVICES);
+        
+        } else {
+            
+            if(Build.VERSION.SDK_INT >= 33) {
+                
+                
+                pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(PackageManager.GET_SERVICES));
+                
+            } else {
+            
+            
+            pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_SERVICES);
+            
+            }
+            
+        }
+                        
+try {
+    
+    services = new ArrayList<>();
+		
+		if (pckgInfo.services != null) {
+            
+            
+			for (ServiceInfo a : pckgInfo.services) {
+				
+				services.add(a.name);
+                
+                
+					}
+                    
+                    
+					}
+                    
+                    
+					} catch (Exception e) {
+                        
+                        
+                        
+						}
+                        
+                        
+if(Build.VERSION.SDK_INT < 28) {
+    
+		pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_RECEIVERS);
+        
+        } else {
+            
+            if(Build.VERSION.SDK_INT >= 33) {
+                
+                
+                pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(PackageManager.GET_RECEIVERS));
+                
+            } else {
+            
+            
+            pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_RECEIVERS);
+            
+            }
+            
+        }
+                        
+try {
+    
+    receivers = new ArrayList<>();
+		
+		if (pckgInfo.receivers != null) {
+            
+            
+			for (ActivityInfo a : pckgInfo.receivers) {
+				
+				receivers.add(a.name);
+                
+                
+					}
+                    
+                    
+					}
+                    
+                    
+					} catch (Exception e) {
+                        
+                        
+                        
+						}
+                        
+                        
+if(Build.VERSION.SDK_INT < 28) {
+    
+		pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_PROVIDERS);
+        
+        } else {
+            
+            if(Build.VERSION.SDK_INT >= 33) {
+                
+                
+                pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(PackageManager.GET_PROVIDERS));
+                
+            } else {
+            
+            
+            pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_PROVIDERS);
+            
+            }
+            
+        }
+                        
+try {
+    
+    providers = new ArrayList<>();
+		
+		if (pckgInfo.providers != null) {
+            
+            
+			for (ProviderInfo a : pckgInfo.providers) {
+				
+				providers.add(a.name);
+                
+                
+					}
+                    
+                    
+					}
+                    
+                    
+					} catch (Exception e) {
+                        
+                        
+                        
+						}
+                        
 
 
+
+
+                        
     }
     
     
@@ -847,7 +1101,7 @@ try {
         
         } else {
             
-            if(Build.VERSION.SDK_INT >= 32) {
+            if(Build.VERSION.SDK_INT >= 33) {
                 
                 
                 packageInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(PackageManager.GET_SIGNING_CERTIFICATES));
@@ -907,7 +1161,7 @@ try {
         
         } else {
             
-            if(Build.VERSION.SDK_INT >= 32) {
+            if(Build.VERSION.SDK_INT >= 33) {
                 
                 
                 packageInfo = cntx.getPackageManager().getPackageInfo(pkgName, PackageManager.PackageInfoFlags.of(PackageManager.GET_SIGNING_CERTIFICATES));
@@ -996,7 +1250,7 @@ digest.update(sig);
         
         /*Android 13 and up*/
         
-        if(android.os.Build.VERSION.SDK_INT >= 32) {
+        if(android.os.Build.VERSION.SDK_INT >= 33) {
         
         listn = c.getPackageManager().getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA));
         
@@ -1047,7 +1301,7 @@ digest.update(sig);
         
         /*Android 13 and up*/
         
-        if(android.os.Build.VERSION.SDK_INT >= 32) {
+        if(android.os.Build.VERSION.SDK_INT >= 33) {
         
         listn = c.getPackageManager().getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA));
         
@@ -1100,7 +1354,7 @@ digest.update(sig);
         
         /*Android 13 and up*/
         
-        if(android.os.Build.VERSION.SDK_INT >= 32) {
+        if(android.os.Build.VERSION.SDK_INT >= 33) {
         
         listn = c.getPackageManager().getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA));
         
@@ -1132,6 +1386,19 @@ digest.update(sig);
 				return tempList;
         
     }
+    
+    
+    
+    /*you can list the apk files using this , where is the full path of folder String value*/
+    
+    
+        
+    public static ArrayList<String> getApkPaths(String where) {
+        
+        return new ArabWareFileManager(where).full_files_list(false,"apk");
+        
+    }
+
     
 	
 }
