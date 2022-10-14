@@ -1,7 +1,7 @@
 ## Full Guide To ApkUtils Class
 ### ApkUtils is a class that can get info about apps (file path or package name) without any hard codes + it works for most (all) android versions from 5 to 13
 #### c is the context like MainActivity.this or Fragment.this.getActivity(); , path is the string path of apk file , pkg is the package name of the app , apk is the name of ApkUtils definition here
-##### please don't use gradle to download the library, paste the java files , because I didnot yet updated the library jar so if you download it , you will use an older one which has different methods and classes
+##### please don't use gradle to download the library, you have two choices , first paste the java files , because I didnot yet updated the library jar so if you download it , you will use an older one which has different methods and classes , second , use this implementation : com.github.abodinagdat16:FileWareUtils:BetaRelease2 
 
 > first you have to define the ApkUtils with a valid Context , I suggest an activity but it's OK to use another things
 
@@ -72,7 +72,7 @@ imageview1.setImageDrawable(apk.getIcon());
 
 ``` java
 
-YourString = apk.getMinTargetSdk();
+YourString = apk.getMinSdkVersion();
 
 ```
 
