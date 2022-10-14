@@ -238,7 +238,7 @@ fos.close();
         return mediaPlayer;
     }
     
-    public static MediaPlayer getMediaPlayerFromUrl(Context ct , String url , LoadingInterface li) {
+    public static MediaPlayer getMediaPlayerFromUrl(final Context ct , final String url , final LoadingInterface li) {
         
         if(li != null) {
             li.loading();
