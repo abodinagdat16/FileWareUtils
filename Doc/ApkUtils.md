@@ -3,18 +3,24 @@
 #### c is the context like MainActivity.this or Fragment.this.getActivity(); , path is the string path of apk file , pkg is the package name of the app , apk is the name of ApkUtils definition here
 ##### please don't use gradle to download the library, paste the java files , because I didnot yet updated the library jar so if you download it , you will use an older one which has different methods and classes
 
+> first you have to define the ApkUtils with a valid Context , I suggest an activity but it's OK to use another things
+
+``` java
+
+ApkUtils apk = new ApkUtils(MainActivity.this); //MainActivity.this, MainActivity is the activity name , if it is a fragment then MainFragment.this.getActivity()
+
 > how to create from file
 
 ``` java
 
-ApkUtils apk = new ApkUtils(c,path);
+apk.setApkPath(path);
 
 ```
 
 > how to create from package name
 
 ``` java
-ApkUtils apk = new ApkUtils(null,null).getFromPackageName(c,pkg);
+apk.setPackageName(pkg);
 
 ```
 
@@ -256,3 +262,18 @@ YourLong2 = apk.lastUpdateTime();
 
 ```
 
+> how to get installed user apps list or system apps list or both , YOUR APP MUST HAVE THE QUERY_ALL_PACKAGES PERMISSION IN ORDER TO ACCESS IT ON ANDROID 11 AND LATER .....
+
+``` java
+
+YourArrayListString = ApkUtils.getInstalledUserAppPackages(MainActivity.this);
+YourArrayListString2 = ApkUtils.getInstalledSystemAppPackages(MainActivity.this);
+YourArrayListString2 = ApkUtils.getInstalledAppPackages(MainActivity.this);
+```
+
+> HOW TO LIST THE APK FILES IN A SPECIFIC FOLDER (AND ITS SUBFOLDERS) , IF THE TARGET ANDROID IS ANDROID 11 AND LATER THEN YOUR APP MUST HAVE MANAGE_EXTERNAL_STORAGE + GRANTED IT FROM USER
+``` java
+
+YourArrayListString = ApkUtils.getApkPaths(YourFolderString);
+
+```
