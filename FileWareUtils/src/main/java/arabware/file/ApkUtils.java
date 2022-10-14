@@ -1,29 +1,20 @@
-/* 2022 , The Open Source ApkUtils Project
-this class can get info about an apk file from path (you can modify it to make it for installed also)
+/* ArabWare 2022 Copyright.The Open Source Project ApkUtils java class
+this class created to help android developers create an apps manager or
+apps info app with all information and functions
 
-sample example :
-
-for example getting the name of the apk file 
-
-YourStringVariable = new ApkUtils(MainActivity.this,path).getName();
-
-MainActivity.this is the activity Context , for fragment Context
-use YourFragment.this.getContext(), 
-and path is the apk String path value or variable
-
-*/
+you can modify or use or share this class in your projects
+but you can not modify the copy right
 
 
-/*
+the class is so explained , every code line there is something
+can explain why I made this .....
 
-TO DO LIST :
 
-1-FULL ACTIVITIES INFO METHODS
-2-FULL SERVICES INFO METHODS
-3-ADD MORE BASIC METHODS LIKE INSTALLING TIME AND LAST UPDATE TIME
-4-OPTIMIZE THE CODE . ADD PRIVATE METHODS FOR DO SOMETHING, DO SOMTHING WORKS WELL BUT TAKE RAM WITHOUT ANY NEED
+Happy coding everyone ... I hope this class was helpful!
 
 */
+
+
 
 //package arabware.file;
 
@@ -72,33 +63,33 @@ public class ApkUtils {
     /*drawable of the app icon from file*/
 	public Drawable drawable;
     /*name of the app from file or package*/
-	public String name;
+	public String name = "null";
     /*version name of the app from file or package*/
-	public String versionName;
+	public String versionName = "null";
     /*version code of the app from file or package*/
-    public int versionCode;
+    public int versionCode = 0;
     /*package of the app from file or package*/
-	public String pkg;
+	public String pkg = "null";
     /*path of the app from file or package*/
-    public String path;
+    public String path = "null";
     /*target sdk version of the app fron file*/
     public int targetSdkVersion;
     /*min sdk version of the app from file or package*/
     public int minSdkVersion;
     /*data dir of the app from file or package*/
-    public String dataDir;
+    public String dataDir = "null";
     /*ManageSpaceActivityName of the app from file or package , it can be null
     if the developer of the app didnot add it in the manifest! OK?*/
-    public String manageSpaceActivityName;
+    public String manageSpaceActivityName = "null";
     /*Application Class Name of the app from file or package , it can be null
     if the developer didnot add it in the manifest! OK?*/
-    public String className;
+    public String className = "null";
     /*uid of the app from file or package*/
     public int uid;
     /*source dir of the app from file or package*/
-    public String sourceDir;
+    public String sourceDir = "null";
     /*public source dir of the app from file or package*/
-    public String publicSourceDir;
+    public String publicSourceDir = "null";
     /*spilt names of the app from file or package if found*/
     public ArrayList<String> names = new ArrayList<>();
     /*spilt source dirs of the app from file or package if found*/
@@ -106,9 +97,9 @@ public class ApkUtils {
     /*spilt public source dirs of the app from file or package if found*/
     public ArrayList<String> publicSources = new ArrayList<>();
     /*name of installed app of same package of app from file*/
-    public String installedName;
+    public String installedName = "null";
     /*version name of installed app of same package of app from file*/
-    public String installedVerName;
+    public String installedVerName = "null";
     /*version code of installed app of same package of app from file*/
     public int installedVerCode;
     /*min sdk version of installed app of same package of app from file*/
@@ -118,9 +109,9 @@ public class ApkUtils {
     /*checks if the apk file is installed and with SAME SIGNATURE*/
     public boolean isInstalledWithSameSignature = false;
     /*sha1 of the app from file or package*/
-    public String SHA1;
+    public String SHA1 = "null";
     /*sha256 of the app from file or package*/
-    public String SHA256;
+    public String SHA256 = "null";
     /*just for signing info*/
     private PackageInfo packageInfo;
     private Signature[] signatures;
@@ -136,101 +127,50 @@ public class ApkUtils {
     public ArrayList<String> providers = new ArrayList<>();
     /*if the developer (YOU) wanted to get info of an app from package and not file path*/
     private boolean fromPackage;
+    private boolean temp = false;
     
     
     
     //constructors
     
-    /*
-    if you choose from path then your app must has the MANAGE_EXTERNAL_STORAGE
-    permission in order to work on android 11 and up
-    */
     
-	public <T extends Context> ApkUtils(T c,String p) {
-        
-        if(p==null||c==null) {
-            
-            //do nothing
-            
-        } else {
-        
-        if(!(new File(p).exists())) {
-            throw new RuntimeException(new Exception("unable to find the apk file , are you sure the path is correct and you gave us the permissions"));
-        }
-        if(c == null) {
-            throw new RuntimeException(new Exception("Context cannot be null , you must add correct context to the ApkUtils constructor (definition)"));
-        }
-        
-	path = p;
-		cntx = c;
-
-doSomething();
-
-		
-}
-		
-	}
-    
-    
-    
-    /*
-    if you want to get info from package name and not the file path , YOUR APP
-    HAS THE QUERY_ALL_PACKAGES PERMISSION IN ANDROID 11
-    */
-    
-    public ApkUtils getFromPackageName(Context context, String packageName) {
-        
-        cntx = context;
-        
-        pkg = packageName;
-        
-        fromPackage = true;
+	
+	public ApkUtils(Context c) {
         
         
-        try {
-
-
-
-if(Build.VERSION.SDK_INT < 28) {
-    
-		pckgInfo = context.getPackageManager().getPackageInfo(packageName, 0);
+        cntx = c;
         
-        } else {
-            
-            if(Build.VERSION.SDK_INT >= 33) {
-                
-                
-                pckgInfo = context.getPackageManager().getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0));
-                
-            } else {
-            
-            
-            pckgInfo = context.getPackageManager().getPackageInfo(packageName, 0);
-            
-            }
-            
-            
-            
-        }
-
-
-
-
-
-ai= pckgInfo.applicationInfo;
-
-} catch(Exception e) {
-    
-    throw new RuntimeException(e);
-    
-}
-        
-        return new ApkUtils(context,ai.publicSourceDir);
     }
+    
+    
+    
     
     
     //methods (functions)
 	
+    
+    /*
+    you have to YES YOU HAVE TO , add the MANAGE_EXTERNAL_STORAGE permission
+    in order to make your app run this method on android 11 and later .... 
+    */
+    
+    public void setApkPath(String p) {
+        path = p;
+        fromPackage = false;
+        doSomething();
+    }
+    
+    /*
+    you have to YES YOU HAVE TO , add the QUERY_ALL_PACKAGES permission
+    in order to make your app run this method on android 11 and later
+    */
+    
+    public void setPackageName(String pkgName) {
+        pkg = pkgName;
+        fromPackage = true;
+        doSomething();
+    }
+    
     
     /* with this you can get an icon drawable value . and put it in ImageView (for example)*/
     
@@ -480,65 +420,35 @@ ai= pckgInfo.applicationInfo;
     
     private void doSomething() {
 
-try {
-
-if(fromPackage) {
-    
-    
-    
-    
-    
-    
-} else {
-
-if(Build.VERSION.SDK_INT < 28) {
-    
-		pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, 0);
-        
-        } else {
-            
-            if(Build.VERSION.SDK_INT >= 33) {
-                
-                
-                pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(0));
-                
-            } else {
-            
-            
-            pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, 0);
-            
-            }
-            
-        }
-
-}
-
-
-ai= pckgInfo.applicationInfo;
-
-} catch(Exception e) {
-    
-}
+init(0);
 
 try {
+
+if(!fromPackage) {
 
 ai.sourceDir = path;
 
+}
+
 } catch(Exception e) {
     
 }
 
 try {
+
+if(!fromPackage) {
 
 ai.publicSourceDir = path;
 
+}
+
 } catch(Exception e) {
     
 }
 
 try {
 
-drawable = cntx.getPackageManager().getApplicationIcon(pckgInfo.applicationInfo);
+drawable = ai.loadIcon(cntx.getPackageManager());
 
 } catch(Exception e) {
     
@@ -546,7 +456,7 @@ drawable = cntx.getPackageManager().getApplicationIcon(pckgInfo.applicationInfo)
 
 try {
 
-name = "" + cntx.getPackageManager().getApplicationLabel(pckgInfo.applicationInfo);
+name = "" + ai.loadLabel(cntx.getPackageManager());
 
 } catch(Exception e) {
     
@@ -639,37 +549,18 @@ uid = ai.uid;
 
 /*here we are checking if the app is installed or no and get some info*/
 
+if(!fromPackage) {
+    fromPackage = true;
+    temp = true;
+}
+
 try {
-
-
-
-if(Build.VERSION.SDK_INT < 28) {
     
-		pckgInfo = cntx.getPackageManager().getPackageInfo(pkg, 0);
-        
-        } else {
-            
-            if(Build.VERSION.SDK_INT >= 33) {
-                
-                
-                pckgInfo = cntx.getPackageManager().getPackageInfo(pkg, PackageManager.PackageInfoFlags.of(0));
-                
-            } else {
-            
-            
-            pckgInfo = cntx.getPackageManager().getPackageInfo(pkg, 0);
-            
-            }
-            
-        }
-
-
-
-
-
-ai= pckgInfo.applicationInfo;
-
+    init(0);
+    
 } catch(Exception e) {
+    
+    
     
 }
 
@@ -736,7 +627,7 @@ installedMinSdk = ai.minSdkVersion;
 
 try {
 
-installedName = "" + cntx.getPackageManager().getApplicationLabel(ai);
+installedName = "" + ai.loadLabel(cntx.getPackageManager());
 
 } catch(Exception e) {
     
@@ -793,55 +684,66 @@ for(String s : list3) {
     
 }
 
+/*
+these four lines of code (if statement) , are very important
+because we did some checking for case the app is from file and
+we wanted to check if it installed also , so after we finished
+we must set the value back as it was
+*/
+
+if(temp) {
+    temp = false;
+    fromPackage = false;
+}
+
+
+
 try {
+if(fromPackage) {
+    SHA1 = getSignture("SHA1",pkg);
+    SHA256 = getSignture("SHA256",pkg);
+} else {
+    SHA1 = getSignture("SHA1");
+    SHA256 = getSignture("SHA256");
+}
 
-SHA1 = getSignture("SHA1");
-
-SHA256 = getSignture("SHA256");
 
 } catch(Exception e) {
     
 }
 
 try {
+
+
+
+if(fromPackage) {
+    
+    isInstalledWithSameSignature = true;
+    
+} else {
 
 String s = getSignture("SHA1");
 String s2 = getSignture("SHA1",pkg);
 String s3 = getSignture("SHA256");
 String s4 = getSignture("SHA256",pkg);
 
-
 isInstalledWithSameSignature = (s.equals(s2) || s3.equals(s4));
 
-
-
-
-} catch(Exception e) {
-    throw new RuntimeException(new Exception(e));
 }
 
 
-if(Build.VERSION.SDK_INT < 28) {
+} catch(Exception e) {
     
-		pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_PERMISSIONS);
-        
-        } else {
-            
-            if(Build.VERSION.SDK_INT >= 33) {
-                
-                
-                pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(PackageManager.GET_PERMISSIONS));
-                
-            } else {
-            
-            
-            pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_PERMISSIONS);
-            
-            }
-            
-        }
+}
+
+
+
+
 
 try {
+    
+    init(PackageManager.GET_PERMISSIONS);
+
     
     permissions = new ArrayList<>();
 		
@@ -864,27 +766,12 @@ try {
                         
                         
 						}
-if(Build.VERSION.SDK_INT < 28) {
-    
-		pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES);
-        
-        } else {
-            
-            if(Build.VERSION.SDK_INT >= 33) {
-                
-                
-                pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(PackageManager.GET_ACTIVITIES));
-                
-            } else {
-            
-            
-            pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES);
-            
-            }
-            
-        }
+                        
+
                         
 try {
+    
+    init(PackageManager.GET_ACTIVITIES);
     
     activities = new ArrayList<>();
 		
@@ -908,27 +795,11 @@ try {
                         
 						}
                         
-if(Build.VERSION.SDK_INT < 28) {
-    
-		pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_SERVICES);
-        
-        } else {
-            
-            if(Build.VERSION.SDK_INT >= 33) {
-                
-                
-                pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(PackageManager.GET_SERVICES));
-                
-            } else {
-            
-            
-            pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_SERVICES);
-            
-            }
-            
-        }
+
                         
 try {
+    
+    init(PackageManager.GET_SERVICES);
     
     services = new ArrayList<>();
 		
@@ -953,27 +824,11 @@ try {
 						}
                         
                         
-if(Build.VERSION.SDK_INT < 28) {
-    
-		pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_RECEIVERS);
-        
-        } else {
-            
-            if(Build.VERSION.SDK_INT >= 33) {
-                
-                
-                pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(PackageManager.GET_RECEIVERS));
-                
-            } else {
-            
-            
-            pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_RECEIVERS);
-            
-            }
-            
-        }
+
                         
 try {
+    
+    init(PackageManager.GET_RECEIVERS);
     
     receivers = new ArrayList<>();
 		
@@ -998,27 +853,11 @@ try {
 						}
                         
                         
-if(Build.VERSION.SDK_INT < 28) {
-    
-		pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_PROVIDERS);
-        
-        } else {
-            
-            if(Build.VERSION.SDK_INT >= 33) {
-                
-                
-                pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(PackageManager.GET_PROVIDERS));
-                
-            } else {
-            
-            
-            pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.GET_PROVIDERS);
-            
-            }
-            
-        }
+
                         
 try {
+    
+    init(PackageManager.GET_PROVIDERS);
     
     providers = new ArrayList<>();
 		
@@ -1044,40 +883,7 @@ try {
                         
                         /*here , we are just doing this to make the first install time and last update time functions work*/
                         
-try {
-
-
-
-if(Build.VERSION.SDK_INT < 28) {
-    
-		pckgInfo = cntx.getPackageManager().getPackageInfo(pkg, 0);
-        
-        } else {
-            
-            if(Build.VERSION.SDK_INT >= 33) {
-                
-                
-                pckgInfo = cntx.getPackageManager().getPackageInfo(pkg, PackageManager.PackageInfoFlags.of(0));
-                
-            } else {
-            
-            
-            pckgInfo = cntx.getPackageManager().getPackageInfo(pkg, 0);
-            
-            }
-            
-        }
-
-
-
-
-
-ai= pckgInfo.applicationInfo;
-
-} catch(Exception e) {
-    
-}
-
+init(0);
 
 
                         
@@ -1432,7 +1238,92 @@ digest.update(sig);
         return new ArabWareFileManager(where).full_files_list(false,"apk");
         
     }
-
     
+    
+    /*
+    just to create data from package or file path.
+    mode is the data that should be collected like ,
+    0 to all modes (maybe)
+    PackageManager.GET_ACTIVITIES , for activities list
+    PackageManager.GET_RECEIVERS , for receivers list
+    PackageManager.GET_PROVIDERS , for providers list
+    PackageManager.GET_SERVICESB , for services lost
+    PackageManager.GET_PERMISSIONS , for permissions list
+    PackageManager.GET_MATCH_ALL , maybe for all data at one
+    */
+    
+    
+    
+    private void init(int mode) {
+        
+        
+        try {
+        
+        
+        
+        if(fromPackage) {
+            
+            
+            
+            if(Build.VERSION.SDK_INT < 28) {
+    
+		pckgInfo = cntx.getPackageManager().getPackageInfo(pkg, mode);
+        
+        } else {
+            
+            if(Build.VERSION.SDK_INT >= 33) {
+                
+                
+                pckgInfo = cntx.getPackageManager().getPackageInfo(pkg, PackageManager.PackageInfoFlags.of(mode));
+                
+            } else {
+            
+            
+            pckgInfo = cntx.getPackageManager().getPackageInfo(pkg, mode);
+            
+            }
+            
+        }
+            
+            
+            
+            
+            
+        } else {
+            
+            
+            if(Build.VERSION.SDK_INT < 28) {
+    
+		pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, mode);
+        
+        } else {
+            
+            if(Build.VERSION.SDK_INT >= 33) {
+                
+                
+                pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(mode));
+                
+            } else {
+            
+            
+            pckgInfo = cntx.getPackageManager().getPackageArchiveInfo(path, mode);
+            
+            }
+            
+        }
+            
+            
+            
+        }
+        
+        ai= pckgInfo.applicationInfo;
+        
+        } catch(Exception e) {
+            
+            throw new RuntimeException(e);
+            
+        }
+        
+    }
 	
 }

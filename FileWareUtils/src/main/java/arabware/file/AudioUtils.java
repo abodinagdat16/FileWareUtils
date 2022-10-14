@@ -19,8 +19,7 @@ import java.net.URL;
 import arabware.file.listeners.LoadingInterface;
 import android.app.Activity;
 import android.media.MediaPlayer;
-import android.view.*;
-import android.widget.*;
+import android.app.Activity;
 
 
 
@@ -28,9 +27,9 @@ public class AudioUtils {
     
     private MediaMetadataRetriever media = new MediaMetadataRetriever();
     private AssetFileDescriptor res;
-    private LoadingInterface LI;
     private File tempF;
-    
+    private Context context;
+    private Activity a;
     
     //public fields
     
@@ -46,7 +45,7 @@ public class AudioUtils {
     public String duration = "null";
     public Bitmap image;
     
-    public MediaPlayer mediaPlayer = new MediaPlayer();
+    public static MediaPlayer mediaPlayer = new MediaPlayer();
     
     
     
@@ -55,7 +54,7 @@ public class AudioUtils {
         
     
     public AudioUtils(Context c , File file) throws IOException {
-        
+        context = c;
         media.setDataSource(c,Uri.fromFile(file));
         mediaPlayer = MediaPlayer.create(c.getApplicationContext(),Uri.fromFile(file));
         doSomething();
@@ -63,9 +62,10 @@ public class AudioUtils {
     }
     
     
+    /* to load audio from resources , like R.raw.audioName */
     
     public AudioUtils(Context c , int resource) throws IOException {
-        
+        context = c;
         res = c.getApplicationContext().getResources().openRawResourceFd(resource);
         media.setDataSource(res.getFileDescriptor(),res.getStartOffset(),res.getLength());
         res.close();
@@ -74,8 +74,11 @@ public class AudioUtils {
         
     }
     
+    
+    /* to load audio from assets , like audio.mp3 or folder/audio.mp3 */
+    
     public AudioUtils(String assets , Context c) throws IOException {
-        
+        context = c;
         tempF = new File(c.getApplicationContext().getCacheDir(),"temp.mp3");
         
         java.io.InputStream inputs = c.getApplicationContext().getAssets().open(assets); 
@@ -226,9 +229,6 @@ fos.close();
         }
         
         
-        if(LI != null) {
-                            LI.done();
-                            }
         
         
     }
@@ -236,6 +236,46 @@ fos.close();
     
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
+    }
+    
+    public static MediaPlayer getMediaPlayerFromUrl(Context ct , String url , LoadingInterface li) {
+        
+        if(li != null) {
+            li.loading();
+        }
+        
+        Thread t = new Thread(new Runnable(){
+            @Override
+            public void run() {
+                
+                
+                mediaPlayer = MediaPlayer.create(ct,Uri.parse(url));
+                
+                
+                
+                ((Activity)ct).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(li != null) {
+                            li.done();
+                        }
+                    }
+                });
+                
+                
+                
+            }
+        });
+        t.start();
+        try {
+        t.join();
+        } catch(Exception e) {
+         
+        }
+        
+        return mediaPlayer;
+        
+        
     }
     
     public String getAlbum() {
