@@ -2,7 +2,7 @@
 ### This Class Can Get Info And Edit An Image With Many Options
 #### the class codes are easy to write and use
 
-> how to create an ImageUtils? , just pass the content of activity or fragment or dialog fragment or service or BroadcastReceiver....
+> how to create an ImageUtils? , just pass the Context of activity or fragment or dialog fragment or service or BroadcastReceiver....
 ``` java
 
 ImageUtils iu = new ImageUtils(YourContext);
@@ -41,6 +41,8 @@ iu.setFromResources(YourResourcesIDAsInteger);
 } catch(Exception e) {
 }
 
+```
+
 > how to set an Image from resources by name and folder name , both are String values
 
 ``` java
@@ -49,7 +51,7 @@ try {
 iu.setFromResources(FileName,FolderName);
 } catch(Exception e) {
 }
-
+```
 
 > how to get the bitmap (so you can get the result every time)
 Here we will put it into ImageView widget,  just as example
