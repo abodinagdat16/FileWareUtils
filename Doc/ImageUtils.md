@@ -236,16 +236,25 @@ iu.setBitmap(YourString);
 
 These are the supported modes currently :
 1-Center
+
 2-TopCenter
+
 3-TopRight
+
 4-TopLeft
+
 5-BottomCenter
+
 6-BottomRight
+
 7-BottomLeft
+
 8-CenterRight
+
 9-CenterLeft
 
 example :
+
 ``` java
 
 
@@ -255,6 +264,25 @@ iu.addWaterMarkCenterRight();
 
 iu.addWaterMarkBottomRight();
 
+```
+
+> how to get bitmap from file/assets/resources without creating ImageUtils 
+``` java
+try {
+YourBitmap = ImageUtils.getBitmapFromFile(new java.io.File(YourFilePath));
+YourBitmap2 = ImageUtils.getBitmapFromAssets(YourContext,YourAssetsPath);
+YourBitmap3 = ImageUtils.getBitmapFromResource(YourContext,YourInt); //YourInt : like R.raw.image or R.drawable.logo
+YourBotmap4 = ImageUtils.getBitmapFromResource(YourContext , FolderName , FileName);
+
+} catch(Exception e) {
+}
+
+```
+
+> how to get resize an bitmap without creating the ImageUtils
+
+``` java
+YourBitmap = ImageUtils.changeWidthAndHeight(YourBitmap,width,height);
 ```
 
 
