@@ -29,4 +29,6 @@
  
  #  Usage
  
- [Apk Utils](https://github.com/abodinagdat16/FileWareUtils/blob/master/Doc/ApkUtils.md)
+ [ApkUtils](https://github.com/abodinagdat16/FileWareUtils/blob/master/Doc/ApkUtils.md)
+ 
+[ImageUtils](https://github.com/abodinagdat16/FileWareUtils/blob/master/Doc/ImageUtils.md)
