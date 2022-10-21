@@ -4,10 +4,6 @@ plugins {
 
 android {
 
-lintOptions {
-abortOnError false
-}
-
     compileSdk 33
 
     defaultConfig {
@@ -23,13 +19,20 @@ abortOnError false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
+
+    lint {
+        abortOnError false
+    }
+
+    namespace 'arabware.file'
 }
 
 dependencies {
 
-   
-    }
+}
