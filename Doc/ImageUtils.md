@@ -411,7 +411,19 @@ YourBitmap = ImageUtils.changeWidthAndHeight(YourBitmap,width,height);
 ```
 
 
+> how to get bitmap of a view
 
+``` java
+
+Bitmap b = ImageUtils.getBitmap(YourViewName);
+
+//or
+
+iu.setBitmap(YourViewName);
+
+//it can also work for ImageView (only its image) but if you want the ImageView itself with its content image , you should do (View)yourImageView and not yourImageView directly
+
+```
 
 
 
