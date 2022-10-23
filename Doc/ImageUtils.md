@@ -9,6 +9,24 @@ ImageUtils iu = new ImageUtils(YourContext);
 
 ```
 
+> note : you can add a listener for progress of loading or editing , also it makes your app fast and without slow running at runtime , add the code between every () of or at last of () params , i wrote some examples , I am currently tired to edit all the old guide and make it for all , the code :
+``` java
+new com.android.prime.arab.ware.everythingutils.listeners.BitmapTasks() {
+@Override
+public void loading() {
+//loaded
+}
+@Override
+public void done() {
+//done
+}
+@Override
+public void error(String error) {
+//error
+}
+}
+```
+
 > how to set an Image from file ? , YourPath is the file path as string
 
 ``` java
@@ -20,6 +38,22 @@ iu.setFromFile(new java.io.File(YourPath));
 
 }
 
+//or you can load without slow running + with events
+
+iu.setFromFile(new java.io.File(YourPath),new com.android.prime.arab.ware.everythingutils.listeners.BitmapTasks() {
+@Override
+public void loading() {
+//loaded
+}
+@Override
+public void done() {
+//done
+}
+@Override
+public void error(String error) {
+//error
+}
+});
 
 ```
 
@@ -30,6 +64,25 @@ iu.setFromAssets(YourAssetsPath);
 } catch(Exception e) {
 
 }
+
+//or you can load without slow running + with events
+
+iu.setFromAssets(YourAssetsPath,new com.android.prime.arab.ware.everythingutils.listeners.BitmapTasks() {
+@Override
+public void loading() {
+//loaded
+}
+@Override
+public void done() {
+//done
+}
+@Override
+public void error(String error) {
+//error
+}
+});
+
+
 ```
 
 > how to create an image from resources, like R.raw.image or R.drawable.image
@@ -41,6 +94,24 @@ iu.setFromResources(YourResourcesIDAsInteger);
 } catch(Exception e) {
 }
 
+//or you can load without running slowly and with events
+
+iu.setFromResources(YourResourceIDAsInteger,new com.android.prime.arab.ware.everythingutils.listeners.BitmapTasks() {
+@Override
+public void loading() {
+//loaded
+}
+@Override
+public void done() {
+//done
+}
+@Override
+public void error(String error) {
+//error
+}
+});
+
+
 ```
 
 > how to set an Image from resources by name and folder name , both are String values
@@ -51,6 +122,24 @@ try {
 iu.setFromResources(FileName,FolderName);
 } catch(Exception e) {
 }
+
+//or you can load without running slowly and with events
+
+iu.setFromResources(FileName,FolderName,new com.android.prime.arab.ware.everythingutils.listeners.BitmapTasks() {
+@Override
+public void loading() {
+//loaded
+}
+@Override
+public void done() {
+//done
+}
+@Override
+public void error(String error) {
+//error
+}
+});
+
 ```
 
 > how to get the bitmap (so you can get the result every time)
@@ -81,6 +170,23 @@ int pixelsCount = width*height; //same value as above
 
 iu.rotate(90);
 
+//or with progress + no slow running
+
+iu.rotate(90,new com.android.prime.arab.ware.everythingutils.listeners.BitmapTasks() {
+@Override
+public void loading() {
+//loaded
+}
+@Override
+public void done() {
+//done
+}
+@Override
+public void error(String error) {
+//error
+}
+});
+
 ```
 
 > how to flip the image horizontally 
@@ -88,6 +194,23 @@ iu.rotate(90);
 ``` java
 
 iu.flipHorizontally();
+
+//or without running slowly + events
+
+iu.flipHorizontally(new com.android.prime.arab.ware.everythingutils.listeners.BitmapTasks() {
+@Override
+public void loading() {
+//loaded
+}
+@Override
+public void done() {
+//done
+}
+@Override
+public void error(String error) {
+//error
+}
+});
 
 ```
 
